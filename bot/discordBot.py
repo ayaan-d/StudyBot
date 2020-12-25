@@ -12,6 +12,14 @@ async def on_ready():
 async def test(ctx):
     await ctx.send('its working')
 
+@client.command()
+async def ask(ctx, question):
+    response = [yes, no, maybe]
+
+    if 
+    await ctx.send('')
+
+
 
 client.run('Nzc1Nzc0OTc2NTQ4NDA1Mjc4.X6rOvw.IIMUROaQt26-ztNsZpPNM4gL2gA')
 
