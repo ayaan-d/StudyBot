@@ -1,4 +1,3 @@
-import discord
 from discord.ext import commands
 
 client = commands.Bot(command_prefix='.')
@@ -14,5 +13,5 @@ async def test(ctx):
     await ctx.send('its working')
 
 
-client.run('add-channel-token-here')
+client.run('Nzc1Nzc0OTc2NTQ4NDA1Mjc4.X6rOvw.IIMUROaQt26-ztNsZpPNM4gL2gA')
 
