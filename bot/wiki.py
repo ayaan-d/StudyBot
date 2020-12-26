@@ -16,8 +16,8 @@ def get_wiki_info(topic):
 
 @client.command(caseinsensitive=True, aliases=['wiki', 'wikipedia'])
 async def wikipedia_info(ctx):
-    # def check(m):
-    #     return m.content is not None
+    def check(m):
+        return m.content is not None
 
     # asks for the wikipedia topic
     await ctx.send('What would you like to learn about?')
