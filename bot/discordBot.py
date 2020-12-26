@@ -1,10 +1,11 @@
 from discord.ext import commands
 import csv
 import re
-
+import random
 
 client = commands.Bot(command_prefix='.')
-f= r'C:\Users\Mixna\PycharmProjects\discordBotProject\Storage\question_bank.csv'
+f = r'C:\Users\Mixna\PycharmProjects\discordBotProject\Storage\question_bank' \
+    r'.csv '
 
 
 @client.event
@@ -17,41 +18,29 @@ async def test(ctx):
     await ctx.send('its working')
 
 
-def helper_update_file(updated_bank):
-    if updated_bank is not None and len(updated_bank) != 0:
-        with open(f, "w", newline='') as question_bank:
-            question_bank.truncate()
-            writer = csv.writer(question_bank)
-            for i in updated_bank:
-                writer.writerow(i)
-            return True
-    else:
-        return False
-
-
 @client.command(caseinsensitive=True, aliases=['addquestion', 'aq'])
 async def add_question(ctx):
-
     def check(m):
         return m.content is not None
-# asks for question
+
+    # asks for question
     await ctx.send('Please input the question you would like to add to the '
                    'question bank')
     question = await client.wait_for('message', check=check)
 
-# asks for answer to aforementioned question
+    # asks for answer to aforementioned question
     await ctx.send('Please input the correct answer for the previously'
                    ' inputted question')
     answer = await client.wait_for('message', check=check)
 
-# adds info to csv file
+    # adds info to csv file
     with open(f, mode='a', newline='') as question_bank:
         question_bank = csv.writer(question_bank, delimiter=',', quotechar='"',
                                    quoting=csv.QUOTE_MINIMAL)
         question_bank.writerow([question.content, answer.content,
                                 question.channel])
 
-# success message
+    # success message
     await ctx.send(f"The question, '{question.content}' and its answer, "
                    f"'{answer.content}' was successfully added to the question "
                    f"bank")
@@ -59,7 +48,6 @@ async def add_question(ctx):
 
 @client.command(caseinsensitive=True, aliases=['removequestion', 'rq'])
 async def remove_question(ctx):
-
     # shows all the questions in the question bank with numbers
 
     with open(f) as csv_file:
@@ -127,6 +115,88 @@ async def view_question_bank(ctx):
 
         if len(recorder) == 0:
             await ctx.send("There are no questions found in the question bank")
+
+
+@client.command(caseinsensitive=True, aliases=["askquestion", "askme", "ask",
+                                               'practice'])
+async def ask_question(ctx, num=1, timeout=30):
+    question_bank = helper_get_question_bank()
+
+    counter = 1
+    marker = False
+    while counter <= num:
+        def check(m):
+            return m.content is not None
+
+        if len(question_bank) == 0:
+            if marker:
+                await ctx.send("There are no more questions left to ask")
+            else:
+                await ctx.send("There are no questions to ask")
+            break
+
+        else:
+            marker = True
+            chosen_row = random.choice(question_bank)
+            question_bank.remove(chosen_row)
+            await ctx.send(f'Question: {chosen_row[0]}')
+            counter += 1
+            answer = await client.wait_for('message', check=check,
+                                           timeout=timeout * 1000)
+            if answer.content == chosen_row[1]:
+
+                # TODO: randomize positive response
+                await ctx.send("That's correct!")
+
+            else:
+                incorrect = True
+                while incorrect:
+
+                    # TODO randomize here too
+                    await ctx.send("Whoops, wrong answer. Try again."
+                                   " \n If you would like "
+                                   "to exit, type '.exit'")
+                    answer = await client.wait_for('message',
+                                                   check=check,
+                                                   timeout=timeout * 1000)
+                    if answer.content == chosen_row[1]:
+                        incorrect = False
+
+                        # TODO randomize here too
+                        await ctx.send("That's correct!")
+                    elif answer.content == '.exit':
+                        incorrect = False
+                        await ctx.send("You have exited the "
+                                       "question bank")
+
+
+@client.command(caseinsensitive=True, aliases=["testme"])
+async def ask_all_questions(ctx, timeout=30):
+    helper_get_question_bank()
+
+
+#
+# HELPER FUNCTIONS
+
+def helper_get_question_bank():
+    with open(f) as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        question_bank = []
+        for row in csv_reader:
+            question_bank.append(row)
+    return question_bank
+
+
+def helper_update_file(updated_bank):
+    if updated_bank is not None and len(updated_bank) != 0:
+        with open(f, "w", newline='') as question_bank:
+            question_bank.truncate()
+            writer = csv.writer(question_bank)
+            for i in updated_bank:
+                writer.writerow(i)
+            return True
+    else:
+        return False
 
 
 client.run('Nzc1Nzc0OTc2NTQ4NDA1Mjc4.X6rOvw.IIMUROaQt26-ztNsZpPNM4gL2gA')
