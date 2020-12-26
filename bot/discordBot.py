@@ -45,7 +45,7 @@ async def add_question(ctx):
     answer = await client.wait_for('message', check=check)
 
 # adds info to csv file
-    with open(f, mode='w', newline='') as question_bank:
+    with open(f, mode='a', newline='') as question_bank:
         question_bank = csv.writer(question_bank, delimiter=',', quotechar='"',
                                    quoting=csv.QUOTE_MINIMAL)
         question_bank.writerow([question.content, answer.content,
@@ -111,6 +111,24 @@ async def remove_question(ctx):
                 await ctx.send("Not a valid input")
         else:
             await ctx.send("There are no questions found in the question bank")
+
+
+@client.command(caseinsensitive=True, aliases=["viewall", "viewallquestions",
+                                               "viewquestionbank", "vqb"])
+async def view_question_bank(ctx):
+    with open(f) as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        line_count = 0
+        recorder = []
+        for row in csv_reader:
+            await ctx.send(f'\nQuestion:\t{row[0]} \nAnswer:  \t{row[1]}\n')
+            recorder.append(row[0])
+            line_count += 1
+
+        if len(recorder) == 0:
+            await ctx.send("There are no questions found in the question bank")
+
+
 
 client.run('Nzc1Nzc0OTc2NTQ4NDA1Mjc4.X6rOvw.IIMUROaQt26-ztNsZpPNM4gL2gA')
 
