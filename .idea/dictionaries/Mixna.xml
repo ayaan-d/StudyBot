@@ -2,12 +2,18 @@
   <dictionary name="Mixna">
     <words>
       <w>addquestion</w>
+      <w>askall</w>
+      <w>askallquestions</w>
       <w>askme</w>
       <w>dbca</w>
       <w>iimur</w>
       <w>mixna</w>
+      <w>practiceall</w>
       <w>removequestion</w>
+      <w>testallquestions</w>
       <w>testme</w>
+      <w>testmeall</w>
+      <w>testquestions</w>
       <w>viewall</w>
       <w>viewallquestions</w>
       <w>viewquestionbank</w>

@@ -162,7 +162,7 @@ class QuizCog(commands.Cog):
                 counter += 1
                 print("doesnt get the answer")
                 answer = await self.client.wait_for('message', check=check,
-                                               timeout=timeout * 1000)
+                                                    timeout=timeout * 1000)
                 print("makes it to getting the answer")
                 if answer.content == chosen_row[1]:
 
@@ -190,7 +190,7 @@ class QuizCog(commands.Cog):
                                            "question bank")
 
     @commands.command(case_insensitive=True, aliases=["practiceall", 'askall',
-                                                     "askallquestions"])
+                                                      "askallquestions"])
     async def ask_all_questions(self, ctx, timeout=30):
         question_bank = helper_get_question_bank()
         counter = 1
@@ -214,7 +214,7 @@ class QuizCog(commands.Cog):
                 await ctx.send(f'Question: {chosen_row[0]}')
                 counter += 1
                 answer = await self.client.wait_for('message', check=check,
-                                               timeout=timeout * 1000)
+                                                    timeout=timeout * 1000)
                 if answer.content == chosen_row[1]:
 
                     # TODO: randomize positive response // probably a helper
@@ -228,9 +228,9 @@ class QuizCog(commands.Cog):
                         await ctx.send("Whoops, wrong answer. Try again."
                                        " \n If you would like "
                                        "to exit, type '.exit'")
-                        answer = await self.client.wait_for('message',
-                                                       check=check,
-                                                       timeout=timeout * 1000)
+                        answer = await \
+                            self.client.wait_for('message', check=check,
+                                                 timeout=timeout * 1000)
                         if answer.content == chosen_row[1]:
                             incorrect = False
 
@@ -241,7 +241,8 @@ class QuizCog(commands.Cog):
                             await ctx.send("You have exited the "
                                            "question bank")
 
-    @commands.command(case_insensitive=True, aliases=["testquestions", "testme"])
+    @commands.command(case_insensitive=True,
+                      aliases=["testquestions", "testme"])
     async def test_questions(self, ctx, num=5, timeout=30):
         correct = 0
         total = 0
@@ -256,5 +257,3 @@ class QuizCog(commands.Cog):
 
 def setup(client):
     client.add_cog(QuizCog(client))
-
-
