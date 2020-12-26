@@ -3,8 +3,6 @@ import re
 import random
 from discord.ext import commands
 
-# client = commands.Bot(command_prefix='.')
-
 f = r'C:\Users\Mixna\PycharmProjects\discordBotProject\Storage\question_bank' \
     r'.csv '
 
@@ -34,7 +32,7 @@ class QuizCog(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command(caseinsensitive=True, aliases=['addquestion', 'aq'])
+    @commands.command(case_insensitive=True, aliases=['addquestion', 'aq'])
     async def add_question(self, ctx):
         def check(m):
             return m.content is not None
@@ -63,7 +61,7 @@ class QuizCog(commands.Cog):
                        f"question "
                        f"bank")
 
-    @commands.command(caseinsensitive=True, aliases=['removequestion', 'rq'])
+    @commands.command(case_insensitive=True, aliases=['removequestion', 'rq'])
     async def remove_question(self, ctx):
         # shows all the questions in the question bank with numbers
 
@@ -119,7 +117,7 @@ class QuizCog(commands.Cog):
                 await ctx.send(
                     "There are no questions found in the question bank")
 
-    @commands.command(caseinsensitive=True,
+    @commands.command(case_insensitive=True,
                       aliases=["viewall", "viewallquestions",
                                "viewquestionbank", "vqb"])
     async def view_question_bank(self, ctx):
@@ -136,7 +134,7 @@ class QuizCog(commands.Cog):
                 await ctx.send(
                     "There are no questions found in the question bank")
 
-    @commands.command(caseinsensitive=True,
+    @commands.command(case_insensitive=True,
                       aliases=["askquestion", "askme", "ask",
                                'practice'])
     async def ask_question(self, ctx, num=1, timeout=30):
@@ -179,9 +177,8 @@ class QuizCog(commands.Cog):
                         await ctx.send("Whoops, wrong answer. Try again."
                                        " \n If you would like "
                                        "to exit, type '.exit'")
-                        answer = await self.client.wait_for('message',
-                                                       check=check,
-                                                       timeout=timeout * 1000)
+                        answer = await self.client.wait_for(
+                            'message', check=check, timeout=timeout * 1000)
                         if answer.content == chosen_row[1]:
                             incorrect = False
 
@@ -192,7 +189,7 @@ class QuizCog(commands.Cog):
                             await ctx.send("You have exited the "
                                            "question bank")
 
-    @commands.command(caseinsensitive=True, aliases=["practiceall", 'askall',
+    @commands.command(case_insensitive=True, aliases=["practiceall", 'askall',
                                                      "askallquestions"])
     async def ask_all_questions(self, ctx, timeout=30):
         question_bank = helper_get_question_bank()
@@ -244,12 +241,12 @@ class QuizCog(commands.Cog):
                             await ctx.send("You have exited the "
                                            "question bank")
 
-    @commands.command(caseinsensitive=True, aliases=["testquestions", "testme"])
+    @commands.command(case_insensitive=True, aliases=["testquestions", "testme"])
     async def test_questions(self, ctx, num=5, timeout=30):
         correct = 0
         total = 0
 
-    @commands.command(caseinsensitive=True,
+    @commands.command(case_insensitive=True,
                       aliases=["testall", "testallquestions",
                                "testmeall"])
     async def test_all_questions(self, ctx, timeout=30):
