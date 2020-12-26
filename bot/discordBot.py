@@ -18,7 +18,7 @@ async def test(ctx):
 
 
 def helper_update_file(updated_bank):
-    if updated_bank is not None or len(updated_bank) != 0:
+    if updated_bank is not None and len(updated_bank) != 0:
         with open(f, "w", newline='') as question_bank:
             question_bank.truncate()
             writer = csv.writer(question_bank)
@@ -29,7 +29,7 @@ def helper_update_file(updated_bank):
         return False
 
 
-@client.command(caseinsensitive=True, aliases=['addquestion'])
+@client.command(caseinsensitive=True, aliases=['addquestion', 'aq'])
 async def add_question(ctx):
 
     def check(m):
@@ -102,9 +102,9 @@ async def remove_question(ctx):
                 print(updated_bank)
 
                 if helper_update_file(updated_bank):
-                    await ctx.send(f"The question, '{question}' and its answer, "
-                                   f"'{answer}' was successfully removed from "
-                                   f"the question bank")
+                    await ctx.send(f"The question, '{question}' and its "
+                                   f"answer, '{answer}' was successfully "
+                                   f"removed from the question bank")
                 else:
                     await ctx.send("Your request could not be completed")
             else:
@@ -129,8 +129,4 @@ async def view_question_bank(ctx):
             await ctx.send("There are no questions found in the question bank")
 
 
-
 client.run('Nzc1Nzc0OTc2NTQ4NDA1Mjc4.X6rOvw.IIMUROaQt26-ztNsZpPNM4gL2gA')
-
-
-
