@@ -17,11 +17,9 @@ async def test(ctx):
 async def add_question(ctx, question=None):
 
     def check(m):
-        print("checks")
         return m.content is not None
 
     if question is None:
-        print("if statement")
         await ctx.send('Please input the question you would like to add to the '
                        'question bank')
         question = await client.wait_for('message', check=check)
