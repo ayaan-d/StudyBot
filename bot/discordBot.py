@@ -1,8 +1,10 @@
 from discord.ext import commands
 import csv
+import re
 
 
 client = commands.Bot(command_prefix='.')
+f= r'C:\Users\Mixna\PycharmProjects\discordBotProject\Storage\question_bank.csv'
 
 
 @client.event
@@ -17,7 +19,7 @@ async def test(ctx):
 
 def helper_update_file(updated_bank):
     if updated_bank is not None or len(updated_bank) != 0:
-        with open(r'C:\Users\Mixna\PycharmProjects\discordBotProject\Storage\question_bank.csv', "w", newline='') as question_bank:
+        with open(f, "w", newline='') as question_bank:
             question_bank.truncate()
             writer = csv.writer(question_bank)
             for i in updated_bank:
@@ -43,10 +45,11 @@ async def add_question(ctx):
     answer = await client.wait_for('message', check=check)
 
 # adds info to csv file
-    with open(r'C:\Users\Mixna\PycharmProjects\discordBotProject\Storage\question_bank.csv', mode='w', newline='') as question_bank:
+    with open(f, mode='w', newline='') as question_bank:
         question_bank = csv.writer(question_bank, delimiter=',', quotechar='"',
                                    quoting=csv.QUOTE_MINIMAL)
-        question_bank.writerow([question.content, answer.content, question.channel])
+        question_bank.writerow([question.content, answer.content,
+                                question.channel])
 
 # success message
     await ctx.send(f"The question, '{question.content}' and its answer, "
@@ -59,7 +62,7 @@ async def remove_question(ctx):
 
     # shows all the questions in the question bank with numbers
 
-    with open(r'C:\Users\Mixna\PycharmProjects\discordBotProject\Storage\question_bank.csv') as csv_file:
+    with open(f) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         line_count = 0
         recorder = []
@@ -78,31 +81,34 @@ async def remove_question(ctx):
 
             to_delete = await client.wait_for('message', check=check)
 
-            # removes accordingly
-            line_count = 0
-            updated_bank = []
-            question = ""
-            answer = ""
-            csv_file.seek(0, 0)
+            if re.search("[0-9][0-9]*", to_delete.content):
 
-            for row in csv_reader:
-                if line_count != int(to_delete.content) - 1:
-                    updated_bank.append(row)
-                    print(updated_bank)
+                # removes accordingly
+                line_count = 0
+                updated_bank = []
+                question = ""
+                answer = ""
+                csv_file.seek(0, 0)
+
+                for row in csv_reader:
+                    if line_count != int(to_delete.content) - 1:
+                        updated_bank.append(row)
+                        print(updated_bank)
+                    else:
+                        question = row[0]
+                        answer = row[1]
+                    line_count += 1
+
+                print(updated_bank)
+
+                if helper_update_file(updated_bank):
+                    await ctx.send(f"The question, '{question}' and its answer, "
+                                   f"'{answer}' was successfully removed from "
+                                   f"the question bank")
                 else:
-                    question = row[0]
-                    answer = row[1]
-                line_count += 1
-
-            print(updated_bank)
-
-            if helper_update_file(updated_bank):
-                await ctx.send(f"The question, '{question}' and its answer, "
-                               f"'{answer}' was successfully removed from "
-                               f"the question bank")
+                    await ctx.send("Your request could not be completed")
             else:
-                await ctx.send("Your request could not be completed")
-
+                await ctx.send("Not a valid input")
         else:
             await ctx.send("There are no questions found in the question bank")
 
