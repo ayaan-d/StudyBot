@@ -13,7 +13,7 @@ async def test(ctx):
     await ctx.send('its working')
 
 
-@client.command()
+@client.command(aliases=['addquestion'])
 async def add_question(ctx, question=None):
 
     def check(m):
