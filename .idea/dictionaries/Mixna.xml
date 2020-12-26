@@ -3,6 +3,7 @@
     <words>
       <w>addquestion</w>
       <w>askme</w>
+      <w>dbca</w>
       <w>iimur</w>
       <w>mixna</w>
       <w>removequestion</w>
@@ -10,6 +11,8 @@
       <w>viewall</w>
       <w>viewallquestions</w>
       <w>viewquestionbank</w>
+      <w>webp</w>
+      <w>wikipedia</w>
     </words>
   </dictionary>
 </component>
