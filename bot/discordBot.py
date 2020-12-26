@@ -13,28 +13,30 @@ async def test(ctx):
     await ctx.send('its working')
 
 
-@client.command(aliases=['addquestion'])
-async def add_question(ctx, question=None):
+@client.command(caseinsensitive=True, aliases=['addquestion'])
+async def add_question(ctx):
 
     def check(m):
         return m.content is not None
 
-    if question is None:
-        await ctx.send('Please input the question you would like to add to the '
-                       'question bank')
-        question = await client.wait_for('message', check=check)
+    await ctx.send('Please input the question you would like to add to the '
+                   'question bank')
+    question = await client.wait_for('message', check=check)
+
     await ctx.send('Please input the correct answer for the previously'
                    ' inputted question')
     answer = await client.wait_for('message', check=check)
     # add question to csv
     # add answer to csv
     # add channel to csv
-    await ctx.send(f"The question, '{question.content}' and its answer, '{answer.content}' was "
-                   f"successfully added to the question bank")
+    await ctx.send(f"The question, '{question.content}' and its answer, "
+                   f"'{answer.content}' was successfully added to the question "
+                   f"bank")
 
 
-@client.command()
+@client.command(caseinsensitive=True, aliases=['removequestion'])
 async def remove_question(ctx):
+
     # print all the questions in the question bank with numbers
     # remove accordingly
     question = ""
