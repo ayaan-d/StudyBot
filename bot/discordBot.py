@@ -15,7 +15,11 @@ async def test(ctx):
 
 # noinspection SpellCheckingInspection
 @client.command(aliases=["addquestion"])
-async def add_question(ctx, question):
+async def add_question(ctx, question=None):
+    if question is not None:
+        question = await client.wait_for('Please input the question you would '
+                                         'like to add to the question bank')
+
     answer = await client.wait_for('Please input the correct answer for '
                                    'the inputted question')
     # add question to csv
@@ -23,6 +27,10 @@ async def add_question(ctx, question):
     # add channel to csv
     await ctx.send(f"{question} and its answer, '{answer}' was successfully "
                    f"added to the question bank")
+
+@client.command()
+async def remove_question():
+
 
 
 client.run('Nzc1Nzc0OTc2NTQ4NDA1Mjc4.X6rOvw.IIMUROaQt26-ztNsZpPNM4gL2gA')
