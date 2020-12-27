@@ -33,7 +33,6 @@ class ReminderCog(commands.Cog):
             while marker:
                 await ctx.send("What would like to be reminded of?")
                 reminding = await self.client.wait_for('message', check=check)
-                print("sees it being processed")
                 if not re.search("[.]*[a-zA-z]+[.]*", reminding.content):
                     await ctx.send("You have not entered a valid reminder "
                                    "message")
