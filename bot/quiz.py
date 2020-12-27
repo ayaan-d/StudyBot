@@ -225,15 +225,56 @@ class QuizCog(commands.Cog):
     @commands.command(case_insensitive=True,
                       aliases=["testquestions", "testme"])
     async def test_questions(self, ctx, num=5, timeout=30):
-        correct = 0
-        total = 0
+        counter = 0
 
     @commands.command(case_insensitive=True,
                       aliases=["testall", "testallquestions",
                                "testmeall"])
     async def test_all_questions(self, ctx, timeout=30):
+        question_bank = helper.get_question_bank()
+        counter = 1
+        marker = False
         correct = 0
         total = 0
+
+        while True:
+            def check(m):
+                return m.content is not None
+
+            if len(question_bank) == 0:
+                if marker:
+                    await ctx.send(f"You completed all the questions!."
+                                   f"\n Your score was "
+                                   f"{correct} out of {total}, "
+                                   f"{correct/total}%.")
+                else:
+                    await ctx.send("There are no questions to ask")
+
+                break
+
+            else:
+                marker = True
+                chosen_row = random.choice(question_bank)
+                question_bank.remove(chosen_row)
+                await ctx.send(f'Question: {chosen_row[0]}')
+                counter += 1
+                answer = await self.client.wait_for('message', check=check,
+                                                    timeout=timeout * 1000)
+                total += 1
+
+                if answer.content == chosen_row[1]:
+                    correct += 1
+
+                    # TODO: randomize positive response // probably a helper
+                    await ctx.send("That's correct!")
+
+                elif answer.content == '.exit':
+                    await ctx.send("You have exited the question bank")
+                    break
+
+                else:
+                    # TODO randomize here too
+                    await ctx.send("Whoops, wrong answer.")
 
 
 def setup(client):
