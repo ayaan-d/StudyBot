@@ -3,29 +3,10 @@ import re
 import random
 from discord.ext import commands
 
+from bot import helper
+
 f = r'C:\Users\Mixna\PycharmProjects\discordBotProject\Storage\question_bank' \
     r'.csv '
-
-
-def helper_get_question_bank():
-    with open(f) as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter=',')
-        question_bank = []
-        for row in csv_reader:
-            question_bank.append(row)
-    return question_bank
-
-
-def helper_update_file(updated_bank):
-    if updated_bank is not None and len(updated_bank) != 0:
-        with open(f, "w", newline='') as question_bank:
-            question_bank.truncate()
-            writer = csv.writer(question_bank)
-            for i in updated_bank:
-                writer.writerow(i)
-            return True
-    else:
-        return False
 
 
 class QuizCog(commands.Cog):
@@ -105,7 +86,7 @@ class QuizCog(commands.Cog):
 
                     print(updated_bank)
 
-                    if helper_update_file(updated_bank):
+                    if helper.update_file(updated_bank):
                         await ctx.send(f"The question, '{question}' and its "
                                        f"answer, '{answer}' was successfully "
                                        f"removed from the question bank")
@@ -138,7 +119,7 @@ class QuizCog(commands.Cog):
                       aliases=["askquestion", "askme", "ask",
                                'practice'])
     async def ask_question(self, ctx, num=1, timeout=30):
-        question_bank = helper_get_question_bank()
+        question_bank = helper.get_question_bank()
 
         counter = 1
         marker = False
@@ -192,7 +173,7 @@ class QuizCog(commands.Cog):
     @commands.command(case_insensitive=True, aliases=["practiceall", 'askall',
                                                       "askallquestions"])
     async def ask_all_questions(self, ctx, timeout=30):
-        question_bank = helper_get_question_bank()
+        question_bank = helper.get_question_bank()
         counter = 1
         marker = False
 
