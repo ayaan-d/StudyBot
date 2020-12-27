@@ -99,10 +99,9 @@ class ReminderCog(commands.Cog):
                                            "be reminded?")
                             timing = await self.client.wait_for('message',
                                                                 check=check)
-                            if not re.search \
-                                        (r"^(?=.*[hmd]$)\d+(?:d\s*)?\d*("
-                                         r"?:h\s*)?\d*(?:m\s*)?$",
-                                         timing.content):
+                            if not re.search(r"^(?=.*[hmd]$)\d+(?:d\s*)?\d*("
+                                             r"?:h\s*)?\d*(?:m\s*)?$",
+                                             timing.content):
                                 await ctx.send("incorrect formatting")
                             elif timing.content == '.exit':
                                 break
@@ -122,10 +121,10 @@ class ReminderCog(commands.Cog):
                                                    f" \n I'll make sure to "
                                                    f"remind you in {counter}.")
                                     await asyncio.sleep(reminder_time[-1])
-                                    await ctx.send \
-                                        (f"Hi @{ctx.message.author.mention}, "
-                                         f"you asked me to remind you, '"
-                                         f"{reminder}' {counter} ago.")
+                                    await ctx. \
+                                        send(f"Hi @{ctx.message.author.mention}"
+                                             f", you asked me to remind you, '"
+                                             f"{reminder}' {counter} ago.")
                                 elif reminding != '':
                                     await ctx.send(f"Your reminder, '"
                                                    f"{reminding.content}' "
@@ -134,10 +133,10 @@ class ReminderCog(commands.Cog):
                                                    f"to remind you in {counter}"
                                                    f".")
                                     await asyncio.sleep(reminder_time[-1])
-                                    await ctx.send\
-                                        (f"Hi {ctx.message.author.mention}, "
-                                         f"you asked me to remind you, '"
-                                         f"{reminding.content}' {counter} ago.")
+                                    await ctx.send(
+                                        f"Hi {ctx.message.author.mention}, "
+                                        f"you asked me to remind you, '"
+                                        f"{reminding.content}' {counter} ago.")
                                 else:
                                     await ctx.send("Something went wrong "
                                                    "with your request")
