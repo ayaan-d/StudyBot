@@ -6,6 +6,10 @@ question_bank_file = r'C:\Users\Mixna\PycharmProjects\discordBotProject' \
 
 
 def get_question_bank():
+    """
+
+    :return:
+    """
     with open(question_bank_file) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         question_bank = []
@@ -15,6 +19,11 @@ def get_question_bank():
 
 
 def update_file(updated_bank):
+    """
+
+    :param updated_bank:
+    :return:
+    """
     if updated_bank is not None and len(updated_bank) != 0:
         with open(question_bank_file, "w", newline='') as question_bank:
             question_bank.truncate()
@@ -27,6 +36,11 @@ def update_file(updated_bank):
 
 
 def reminder_time(timing_content):
+    """
+
+    :param timing_content:
+    :return:
+    """
     rn = datetime.datetime.now()
 
     # checking days

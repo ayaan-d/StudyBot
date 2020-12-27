@@ -6,6 +6,11 @@ dictionary = PyDictionary()
 
 
 def get_definition(word):
+    """
+
+    :param word:
+    :return:
+    """
     word_meaning = PyDictionary(word)
     word_definitions = word_meaning.meaning(word)
     try:
@@ -20,11 +25,19 @@ print(get_definition("water"))
 
 
 class DictionaryCog(commands.Cog):
+    """
+
+    """
     def __init__(self, client):
         self.client = client
 
     @commands.command(caseinsensitive=True, aliases=['define', 'definition'])
     async def word_definition(self, ctx):
+        """
+
+        :param ctx:
+        :return:
+        """
         await ctx.send('What word would you like the definition for?')
 
         get_word = await self.client.wait_for('message',

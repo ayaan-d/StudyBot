@@ -4,6 +4,11 @@ from discord.ext import commands
 
 
 def get_wiki_info(topic):
+    """
+
+    :param topic:
+    :return:
+    """
     return wikipedia.summary(topic, sentences=5)
 
 
@@ -13,6 +18,11 @@ class WikiCog(commands.Cog):
 
     @commands.command(caseinsensitive=True, aliases=['wiki', 'wikipedia'])
     async def wikipedia_info(self, ctx):
+        """
+
+        :param ctx:
+        :return:
+        """
 
         # asks for the wikipedia topic
         await ctx.send('What would you like to learn about?')

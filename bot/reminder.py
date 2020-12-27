@@ -9,11 +9,20 @@ file = r'C:\Users\Mixna\PycharmProjects\discordBotProject\Storage\reminders.csv'
 
 
 class ReminderCog(commands.Cog):
+    """
+
+    """
     def __init__(self, client):
         self.client = client
 
     @commands.command(case_insensitive=True, aliases=["remind", "r"])
     async def reminder(self, ctx, *, reminder=None):
+        """
+
+        :param ctx:
+        :param reminder:
+        :return:
+        """
 
         def check(m):
             return m.content is not None
