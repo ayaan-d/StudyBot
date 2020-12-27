@@ -16,7 +16,7 @@ class QuizCog(commands.Cog):
     @commands.command(case_insensitive=True, aliases=['addquestion', 'aq'])
     async def add_question(self, ctx):
         def check(m):
-            return m.content is not None
+            return m.content is not None and m.author == ctx.author
 
         # asks for question
         await ctx.send('Please input the question you would like to add to the '
@@ -141,10 +141,8 @@ class QuizCog(commands.Cog):
                 question_bank.remove(chosen_row)
                 await ctx.send(f'Question: {chosen_row[0]}')
                 counter += 1
-                print("doesnt get the answer")
                 answer = await self.client.wait_for('message', check=check,
                                                     timeout=timeout * 1000)
-                print("makes it to getting the answer")
                 if answer.content == chosen_row[1]:
 
                     # TODO: randomize positive response // probably a helper
@@ -225,14 +223,56 @@ class QuizCog(commands.Cog):
     @commands.command(case_insensitive=True,
                       aliases=["testquestions", "testme"])
     async def test_questions(self, ctx, num=5, timeout=30):
-        counter = 0
+        question_bank = helper.get_question_bank()
+
+        correct = 0
+        total = 0
+        counter = 1
+        marker = False
+        while counter <= num:
+
+            def check(m):
+                return m.content is not None
+
+            if len(question_bank) == 0:
+                if marker:
+                    await ctx.send(f"You completed the allotted questions! "
+                                   f"\nYour score was {correct} out of {total},"
+                                   f" {correct/total}%.")
+                else:
+                    await ctx.send("There are no questions to ask")
+                break
+
+            else:
+                marker = True
+                chosen_row = random.choice(question_bank)
+                question_bank.remove(chosen_row)
+                await ctx.send(f'Question: {chosen_row[0]}')
+                counter += 1
+
+                answer = await self.client.wait_for('message', check=check,
+                                                    timeout=timeout * 1000)
+                total += 1
+                if answer.content == chosen_row[1]:
+                    correct += 1
+
+                    # TODO: randomize positive response // probably a helper
+                    await ctx.send("That's correct!")
+
+                elif answer.content == '.exit':
+                    await ctx.send(f"You have exited the question bank. "
+                                   f"\nYour score was {correct} out of "
+                                   f"{total}, {correct/total}%.")
+
+                else:
+                    # TODO randomize here too
+                    await ctx.send("Whoops, wrong answer.")
 
     @commands.command(case_insensitive=True,
                       aliases=["testall", "testallquestions",
                                "testmeall"])
     async def test_all_questions(self, ctx, timeout=30):
         question_bank = helper.get_question_bank()
-        counter = 1
         marker = False
         correct = 0
         total = 0
@@ -257,19 +297,19 @@ class QuizCog(commands.Cog):
                 chosen_row = random.choice(question_bank)
                 question_bank.remove(chosen_row)
                 await ctx.send(f'Question: {chosen_row[0]}')
-                counter += 1
                 answer = await self.client.wait_for('message', check=check,
                                                     timeout=timeout * 1000)
                 total += 1
 
                 if answer.content == chosen_row[1]:
-                    correct += 1
 
                     # TODO: randomize positive response // probably a helper
                     await ctx.send("That's correct!")
 
                 elif answer.content == '.exit':
-                    await ctx.send("You have exited the question bank")
+                    await ctx.send(f"You have exited the question bank. "
+                                   f"\nYour score was {correct} out of "
+                                   f"{total}, {correct/total}%.")
                     break
 
                 else:
