@@ -21,9 +21,6 @@ def get_definition(word):
         return word_definitions['Adjective'][0]
 
 
-print(get_definition("water"))
-
-
 class DictionaryCog(commands.Cog):
     """
 
