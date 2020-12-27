@@ -97,13 +97,10 @@ class QuizCog(commands.Cog):
                     for row in csv_reader:
                         if line_count != int(to_delete.content) - 1:
                             updated_bank.append(row)
-                            print(updated_bank)
                         else:
                             question = row[0]
                             answer = row[1]
                         line_count += 1
-
-                    print(updated_bank)
 
                     if helper.update_file(updated_bank):
                         await ctx.send(f"The question, '{question}' and its "
@@ -314,7 +311,7 @@ class QuizCog(commands.Cog):
                 if marker:
                     await ctx.send(f"You completed the allotted questions! "
                                    f"\nYour score was {correct} out of {total},"
-                                   f" {correct/total}%.")
+                                   f" {(correct/total)*100}%.")
                 else:
                     await ctx.send("There are no questions to ask")
                 break
@@ -338,7 +335,7 @@ class QuizCog(commands.Cog):
                 elif answer.content == '.exit':
                     await ctx.send(f"You have exited the question bank. "
                                    f"\nYour score was {correct} out of "
-                                   f"{total}, {correct/total}%.")
+                                   f"{total}, {(correct/total)*100}%.")
 
                 else:
                     # TODO randomize here too
@@ -379,10 +376,9 @@ class QuizCog(commands.Cog):
                     await ctx.send(f"You completed all the questions!."
                                    f"\n Your score was "
                                    f"{correct} out of {total}, "
-                                   f"{correct/total}%.")
+                                   f"{(correct/total)*100}%.")
                 else:
                     await ctx.send("There are no questions to ask")
-
                 break
 
             else:
@@ -395,14 +391,14 @@ class QuizCog(commands.Cog):
                 total += 1
 
                 if answer.content == chosen_row[1]:
-
+                    correct += 1
                     # TODO: randomize positive response // probably a helper
                     await ctx.send("That's correct!")
 
                 elif answer.content == '.exit':
                     await ctx.send(f"You have exited the question bank. "
                                    f"\nYour score was {correct} out of "
-                                   f"{total}, {correct/total}%.")
+                                   f"{total}, {(correct/total)*100}%.")
                     break
 
                 else:
