@@ -10,11 +10,25 @@ f = r'C:\Users\Mixna\PycharmProjects\discordBotProject\Storage\question_bank' \
 
 
 class QuizCog(commands.Cog):
+    """"
+    This class is responsible for commands related to the flashcard and quiz
+    aspects of this bot. This includes, adding and removing questions from the
+    question bank. Users are able to practice questions from the question
+    bank having unlimited tries to get the answer right. Users are also able to
+    test themselves where the bot provides feedback in terms of a score.
+    """
+
     def __init__(self, client):
         self.client = client
 
     @commands.command(case_insensitive=True, aliases=['addquestion', 'aq'])
     async def add_question(self, ctx):
+        """
+        Allows the user to add a paired question and answer to the question bank
+        :param ctx: the context of the command call
+        :returns: messages in response to the user's decisions
+        """
+
         def check(m):
             return m.content is not None and m.author == ctx.author
 
@@ -44,6 +58,11 @@ class QuizCog(commands.Cog):
 
     @commands.command(case_insensitive=True, aliases=['removequestion', 'rq'])
     async def remove_question(self, ctx):
+        """ Allows the user to remove a previously added question from the
+        question bank
+        :param ctx: the context of the command call
+        :returns: messages in response to to the user's decisions
+        """
         # shows all the questions in the question bank with numbers
 
         with open(f) as csv_file:
@@ -102,6 +121,12 @@ class QuizCog(commands.Cog):
                       aliases=["viewall", "viewallquestions",
                                "viewquestionbank", "vqb"])
     async def view_question_bank(self, ctx):
+        """
+        Allows the user to view all the questions and their answers found in the
+        question bank
+        :param ctx: the context of the command call
+        :returns: messages in response to to the user's decisions
+        """
         with open(f) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
             line_count = 0
@@ -119,6 +144,22 @@ class QuizCog(commands.Cog):
                       aliases=["askquestion", "askme", "ask",
                                'practice'])
     async def ask_question(self, ctx, num=1, timeout=30):
+        """
+        Allows the user to prompt the bot to help them practice questions from
+        the question bank, giving them unlimited tries to answer correctly. The
+        user can specify the number of questions they want to practice in
+        one go as well as the time limit they have to answer each question. If
+        they do not, the bot will assume the default values, 1 question per call
+        and a 30 second time limit for each question.
+
+        :param ctx: the context of the command call
+        :param num: Optional parameter representing the number of questions to
+        be asked from this call, default number is 1 question per call.
+        :param timeout: Optional parameter representing the timeout time of each
+        question. This creates a time limit for each question to be answered
+        within, the default time is 30 seconds.
+        :return: messages in response to to the user's decisions
+        """
         question_bank = helper.get_question_bank()
 
         counter = 1
@@ -171,6 +212,19 @@ class QuizCog(commands.Cog):
     @commands.command(case_insensitive=True, aliases=["practiceall", 'askall',
                                                       "askallquestions"])
     async def ask_all_questions(self, ctx, timeout=30):
+        """
+        Allows the user to prompt the bot to help them practice through all the
+        questions found in the question bank, with unlimited tries to answer
+        each question correctly. The user can specify the time limit to answer
+        each question (in seconds), otherwise will use the default limit of 30
+        seconds.
+
+        :param ctx: the context of the command call
+        :param timeout: Optional parameter representing the timeout time of each
+        question. This creates a time limit for each question to be answered
+        within, the default time is 30 seconds
+        :returns: messages in response to to the user's decisions
+        """
         question_bank = helper.get_question_bank()
         counter = 1
         marker = False
@@ -223,6 +277,28 @@ class QuizCog(commands.Cog):
     @commands.command(case_insensitive=True,
                       aliases=["testquestions", "testme"])
     async def test_questions(self, ctx, num=5, timeout=30):
+        """
+        Allows the user to prompt the bot to help them test themselves using
+        questions from the question bank, giving them only one try to answer
+        each correctly, and keeping score. After the selected number of
+        questions are answered, the user wil receive a score based on their
+        performance.
+
+        The user can specify the number of questions they want to
+        practice in one go and the time limit they have to answer each question.
+        If they decide not to, the bot will assume the default values, 1
+        question per call and a 30 second time limit for each question.
+
+
+        :param ctx: the context of the command call
+        :param num: Optional parameter representing the number of questions to
+        be tested from this call, default number is 5 questions per call.
+        :param timeout: Optional parameter representing the timeout time of each
+        question. This creates a time limit for each question to be answered
+        within, the default time is 30 seconds
+        :returns: messages in response to to the user's decisions and score
+        based on how many questions asked were correctly answered
+        """
         question_bank = helper.get_question_bank()
 
         correct = 0
@@ -272,6 +348,23 @@ class QuizCog(commands.Cog):
                       aliases=["testall", "testallquestions",
                                "testmeall"])
     async def test_all_questions(self, ctx, timeout=30):
+        """
+        Allows the user to prompt the bot to help them test themselves using all
+        the questions from the question bank, giving them only one try to answer
+        each correctly, and keeping score. After all the questions are answered,
+        the user wil receive a score based on their performance.
+
+        The user can specify the number of questions they want to
+        practice in one go and the time limit they have to answer each question.
+        If they decide not to, the bot will assume the default values, 1
+        question per call and a 30 second time limit for each question.
+        :param ctx: the context of the command call
+        :param timeout: Optional parameter representing the timeout time of each
+        question. This creates a time limit for each question to be answered
+        within, the default time is 30 seconds
+        :returns: messages in response to to the user's decisions and score
+        based on how many questions asked were correctly answered
+        """
         question_bank = helper.get_question_bank()
         marker = False
         correct = 0
