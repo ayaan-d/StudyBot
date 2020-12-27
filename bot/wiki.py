@@ -16,19 +16,23 @@ class WikiCog(commands.Cog):
 
         # asks for the wikipedia topic
         await ctx.send('What would you like to learn about?')
-        wiki_topic = await self.client.wait_for('message',
-                                                check=lambda message:
-                                                message.author == ctx.author)
+        try:
+            wiki_topic = await self.client.wait_for('message',
+                                                    check=lambda message:
+                                                    message.author == ctx.author)
 
-        embed = discord.Embed(
-            description=get_wiki_info(wiki_topic.content),
-            colour=discord.Colour.purple()
-        )
-        embed.set_author(name=wiki_topic.content,
-                         icon_url=
-                         'https://cdn.discordapp.com/avatars/775774976548405278'
-                         '/14204b002e611c1dbca2418d012d955e.webp?size=128')
-        await ctx.send(embed=embed)
+            embed = discord.Embed(
+                    description=get_wiki_info(wiki_topic.content),
+                    colour=discord.Colour.purple()
+            )
+            embed.set_author(name=wiki_topic.content,
+                             icon_url='https://cdn.discordapp.com/avatars/77577'
+                                      '4976548405278/3a033aaeb4c112f7778fed109a'
+                                      'f4c7a7.webp?size=128')
+            await ctx.send(embed=embed)
+        except:
+            await ctx.send('Try being more specific with your topic!')
+
 
 
 def setup(client):
