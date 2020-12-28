@@ -13,13 +13,23 @@ def get_definition(word):
     """
     word_meaning = PyDictionary(word)
     word_definitions = word_meaning.meaning(word)
-    try:
-        return word_definitions['Noun'][0]
-    except KeyError:
-        return word_definitions['Verb'][0]
-    except:
-        return word_definitions['Adjective'][0]
+    definition_list = []
+    if 'Noun' in word_definitions:
+        word_is_noun = "Noun:" + " " + word_definitions['Noun'][0]
+        definition_list.append(word_is_noun)
+    if 'Adjective' in word_definitions:
+        word_is_adjective = "Adjective:" + " " + word_definitions['Adjective'][0]
+        definition_list.append(word_is_adjective)
+    if 'Verb' in word_definitions:
+        word_is_verb = "Verb:" + " " + word_definitions['Verb'][0]
+        definition_list.append(word_is_verb)
+    return definition_list
 
+def display_definition(definition_list):
+    final_definitions = ""
+    for i in definition_list:
+        final_definitions += i + "\n" + "\n"
+    return final_definitions
 
 class DictionaryCog(commands.Cog):
     """
@@ -42,7 +52,7 @@ class DictionaryCog(commands.Cog):
                                               message.author == ctx.author)
 
         embed = discord.Embed(
-            description=get_definition(get_word.content),
+            description=display_definition(get_definition(get_word.content)),
             colour=discord.Colour.blue()
         )
         embed.set_author(name=get_word.content,
