@@ -31,6 +31,7 @@ def display_definition(definition_list):
         final_definitions += i + "\n" + "\n"
     return final_definitions
 
+
 class DictionaryCog(commands.Cog):
     """
 
@@ -60,7 +61,6 @@ class DictionaryCog(commands.Cog):
                                   '4976548405278/3a033aaeb4c112f7778fed109a'
                                   'f4c7a7.webp?size=128')
         await ctx.send(embed=embed)
-
 
 def setup(client):
     client.add_cog(DictionaryCog(client))
