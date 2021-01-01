@@ -8,6 +8,14 @@ from bot import helper
 f = r'C:\Users\Mixna\PycharmProjects\discordBotProject\Storage\question_bank' \
     r'.csv '
 
+correct_feedback = ["That's right!", "Correct!", "That's correct!",
+                    "You got it!", "Looks like you know your stuff!",
+                    "Yup! That's the answer!", "Amazing as always!"]
+
+incorrect_feedback = ["Oh no. Wrong answer.", "Ahh that's not correct.",
+                      "Incorrect.", "Sorry, that's wrong.",
+                      "Whoops! Wrong Answer.", "You might need more practice."]
+
 
 class QuizCog(commands.Cog):
     """"
@@ -184,15 +192,15 @@ class QuizCog(commands.Cog):
                 if answer.content == chosen_row[1]:
 
                     # TODO: randomize positive response // probably a helper
-                    await ctx.send("That's correct!")
+                    await ctx.send(random.choice(correct_feedback))
 
                 else:
                     incorrect = True
                     while incorrect:
 
                         # TODO randomize here too
-                        await ctx.send("Whoops, wrong answer. Try again."
-                                       " \n If you would like "
+                        await ctx.send(random.choice(incorrect_feedback) +
+                                       " Try again.\nIf you would like "
                                        "to exit, type '.exit'")
                         answer = await self.client.wait_for(
                             'message', check=check, timeout=timeout * 1000)
@@ -200,7 +208,7 @@ class QuizCog(commands.Cog):
                             incorrect = False
 
                             # TODO randomize here too
-                            await ctx.send("That's correct!")
+                            await ctx.send(random.choice(correct_feedback))
                         elif answer.content == '.exit':
                             incorrect = False
                             await ctx.send("You have exited the "
@@ -248,15 +256,16 @@ class QuizCog(commands.Cog):
                 if answer.content == chosen_row[1]:
 
                     # TODO: randomize positive response // probably a helper
-                    await ctx.send("That's correct!")
+                    await ctx.send(random.choice(correct_feedback))
 
                 else:
                     incorrect = True
                     while incorrect:
 
                         # TODO randomize here too
-                        await ctx.send("Whoops, wrong answer. Try again."
-                                       " \n If you would like "
+                        await ctx.send(random.choice(incorrect_feedback) +
+                                       " Try again."
+                                       "\nIf you would like "
                                        "to exit, type '.exit'")
                         answer = await \
                             self.client.wait_for('message', check=check,
@@ -265,7 +274,7 @@ class QuizCog(commands.Cog):
                             incorrect = False
 
                             # TODO randomize here too
-                            await ctx.send("That's correct!")
+                            await ctx.send(random.choice(correct_feedback))
                         elif answer.content == '.exit':
                             incorrect = False
                             await ctx.send("You have exited the "
@@ -311,7 +320,7 @@ class QuizCog(commands.Cog):
                 if marker:
                     await ctx.send(f"You completed the allotted questions! "
                                    f"\nYour score was {correct} out of {total},"
-                                   f" {(correct/total)*100}%.")
+                                   f" {(correct / total) * 100}%.")
                 else:
                     await ctx.send("There are no questions to ask")
                 break
@@ -330,16 +339,16 @@ class QuizCog(commands.Cog):
                     correct += 1
 
                     # TODO: randomize positive response // probably a helper
-                    await ctx.send("That's correct!")
+                    await ctx.send(random.choice(correct_feedback))
 
                 elif answer.content == '.exit':
                     await ctx.send(f"You have exited the question bank. "
                                    f"\nYour score was {correct} out of "
-                                   f"{total}, {(correct/total)*100}%.")
+                                   f"{total}, {(correct / total) * 100}%.")
 
                 else:
                     # TODO randomize here too
-                    await ctx.send("Whoops, wrong answer.")
+                    await ctx.send(random.choice(incorrect_feedback))
 
     @commands.command(case_insensitive=True,
                       aliases=["testall", "testallquestions",
@@ -376,7 +385,7 @@ class QuizCog(commands.Cog):
                     await ctx.send(f"You completed all the questions!."
                                    f"\n Your score was "
                                    f"{correct} out of {total}, "
-                                   f"{(correct/total)*100}%.")
+                                   f"{(correct / total) * 100}%.")
                 else:
                     await ctx.send("There are no questions to ask")
                 break
@@ -393,17 +402,17 @@ class QuizCog(commands.Cog):
                 if answer.content == chosen_row[1]:
                     correct += 1
                     # TODO: randomize positive response // probably a helper
-                    await ctx.send("That's correct!")
+                    await ctx.send(random.choice(correct_feedback))
 
                 elif answer.content == '.exit':
                     await ctx.send(f"You have exited the question bank. "
                                    f"\nYour score was {correct} out of "
-                                   f"{total}, {(correct/total)*100}%.")
+                                   f"{total}, {(correct / total) * 100}%.")
                     break
 
                 else:
                     # TODO randomize here too
-                    await ctx.send("Whoops, wrong answer.")
+                    await ctx.send(random.choice(incorrect_feedback))
 
 
 def setup(client):
