@@ -18,17 +18,43 @@ def get_question_bank():
     return question_bank
 
 
-def update_file(updated_bank):
+def get_checklist(checklist_file):
+    with open(checklist_file) as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        checklist = []
+        for row in csv_reader:
+            for i in row:
+                checklist.append(i)
+    return checklist
+
+
+def update_list(updated_list, file_name):
     """
 
-    :param updated_bank:
+    :param file_name:
+    :param updated_list:
     :return:
     """
-    if updated_bank is not None and len(updated_bank) != 0:
-        with open(question_bank_file, "w", newline='') as question_bank:
-            question_bank.truncate()
-            writer = csv.writer(question_bank)
-            for i in updated_bank:
+    if updated_list is not None and len(updated_list) != 0:
+        with open(file_name, "w", newline='') as file_to_update:
+            file_to_update.truncate()
+            csv.writer(file_to_update).writerow(updated_list)
+            return True
+    else:
+        return False
+
+
+def update_file(updated_content):
+    """
+
+    :param updated_content:
+    :return:
+    """
+    if updated_content is not None and len(updated_content) != 0:
+        with open(question_bank_file, "w", newline='') as file_to_update:
+            file_to_update.truncate()
+            writer = csv.writer(file_to_update)
+            for i in updated_content:
                 writer.writerow(i)
             return True
     else:
@@ -122,3 +148,4 @@ def reminder_time(timing_content):
 
     total = days*24*60*60 + hours*60*60 + minutes*60
     return final_time.ctime(), days, hours, minutes, total
+
