@@ -44,7 +44,6 @@ class WikiCog(commands.Cog):
             await ctx.send('Try being more specific with your topic!')
 
 
-
 def setup(client):
     client.add_cog(WikiCog(client))
 

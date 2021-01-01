@@ -1,17 +1,33 @@
 import discord
 from discord.ext import commands
-from googletrans import Translator
-translator = Translator()
+# from googletrans import Translator
+# translator = Translator()
+from google_trans_new import google_translator
+
+translator = google_translator()
+
+
+# def get_french_translation(word):
+#     french_translation = translator.translate(word, src='en', dest='fr')
+#     print(french_translation.text)
+
 
 def get_french_translation(word):
-    french_translation = translator.translate(word, src='en', dest='fr')
+    french_translation = translator.translate(word, lang_src='en', lang_dest='fr')
     print(french_translation.text)
 
+
+# def get_spanish_translation(word):
+#     spanish_translation = translator.translate(word, src='en', dest='es')
+#     print(spanish_translation.text)
+
 def get_spanish_translation(word):
-    spanish_translation = translator.translate(word, src='en', dest='es')
+    spanish_translation = translator.translate(word, lang_src='en', lang_dest='es')
     print(spanish_translation.text)
 
+
 get_french_translation("what are you doing")
+
 
 class TranslationCog(commands.Cog):
     """
@@ -60,6 +76,7 @@ class TranslationCog(commands.Cog):
                                       '4976548405278/3a033aaeb4c112f7778fed109a'
                                       'f4c7a7.webp?size=128')
         await ctx.send(embed=embed)
+
 
 def setup(client):
     client.add_cog(TranslationCog(client))
