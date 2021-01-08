@@ -1,8 +1,7 @@
 # Default ignored files
 /workspace.xml
 
-secret.py
-discordBotProject/*
+secret
 
 *.pyc
 __pycache__
