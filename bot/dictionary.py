@@ -62,5 +62,6 @@ class DictionaryCog(commands.Cog):
                                   'f4c7a7.webp?size=128')
         await ctx.send(embed=embed)
 
+
 def setup(client):
     client.add_cog(DictionaryCog(client))
