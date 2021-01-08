@@ -5,7 +5,7 @@ from bot.quiz import QuizCog
 from bot.wiki import WikiCog
 from bot.reminder import ReminderCog
 from bot.dictionary import DictionaryCog
-import secret
+from ignore import secret
 
 # from bot.translation import TranslationCog
 
