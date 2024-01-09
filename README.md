@@ -78,4 +78,4 @@ Project Link: https://github.com/ayaan-d/StudyBot
 [py]: https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white
 [sq]: https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white
 [disc]: https://img.shields.io/badge/Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white
-[product-screenshot]: images/screenshot.png
+[product-screenshot]: studybot.png
